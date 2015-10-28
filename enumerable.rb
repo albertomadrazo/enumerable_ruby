@@ -21,7 +21,7 @@ module Enumerable
 				my_select_array << x
 			end
 		end
-		return my_select_array.inspect
+		return my_select_array
 	end
 
 	def my_all?
@@ -74,11 +74,19 @@ module Enumerable
 	end
 	
 	def my_inject(start=0)
-		
-		self.my_each do |x|
-			start = yield(start, x)
+		if start != 0
+			accumulator = start
+			start_at = 0
+		else
+			start_at = 1
+			accumulator = self.first
 		end
-		return start
+
+		for i in (start_at...(self.count))
+			accumulator = yield(accumulator, self[i])
+		end
+
+		return accumulator
 	end
 
 end
